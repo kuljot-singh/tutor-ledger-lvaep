@@ -19,11 +19,11 @@ Log attendance, correct history, review monthly totals, and export CSV. **Studen
 3. Open **Student Progress** for Jamie Rivera in September 2026. See ESOL, the assigned library, monthly tutoring hours, and a family achievement. Compare Sam Chen's Basic Literacy profile and Jordan Ellis's stopped example.
 4. As Tutor, log, edit, or delete a fictional record; refresh to confirm database persistence. As Staff, review the monthly report, export CSV, or use the browser print dialog to save a PDF.
 
-All visitors share these records. Example totals may change after public edits. Do not promise fixed totals in a demo. Loading samples is additive; Reset restores the full fictional dataset. No real student data should be entered; the demo role and disclosed password do not authenticate anyone.
+All visitors share these records. Example totals may change after public edits. Loading samples is additive; Reset restores the full fictional dataset. No real student data should be entered; the demo role and disclosed password do not authenticate anyone.
 
 ## Designing for LVAEP
 
-Research checked September 22, 2026. LVAEP is the client; Bloomfield Public Library is a relevant location, not the client identity.
+Research checked September 20, 2026. LVAEP is the client; Bloomfield Public Library is a relevant location, not the client identity.
 
 | Source | Observation | Product decision |
 | --- | --- | --- |
