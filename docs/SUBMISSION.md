@@ -1,7 +1,11 @@
-# CSS submission: assumptions / design decisions
+# CSS submission: assumptions and design decisions
 
-I interpreted the original grid as one attendance record per student assignment per day, combining same-day meetings, within July–June FY 2026–2027. Absence types are explicit zero-hour records rather than missing entries. Durations are stored as whole minutes; quarter-hour increments and a daily 0.25–8 hour range are assumptions to confirm with staff. Monthly reports are derived from the underlying records so edits remain consistent.
+I treated the supplied attendance and achievement form as the starting point for the workflow. The prototype uses one attendance record per tutor/student assignment per day and follows the July–June FY 2026–2027 reporting year. Tutor absence, student absence, and holiday are saved as explicit zero-hour records so they are distinguishable from a missing entry.
 
-I used a fixed fictional roster to focus on the tutor-to-staff reporting workflow. LVAEP research informed program/site details and neutral progress toward its published 16 tutoring hours per month; homework is excluded. Student Progress combines attendance with achievements from the supplied form. One optional achievement is attached to its reporting record, and a stopped learner retains history.
+Session length is stored as whole minutes, with 15-minute increments from 0.25 to 8 hours for this prototype. Monthly totals are calculated from the underlying records rather than stored separately, so edits and deletions are reflected automatically.
 
-This shared public prototype has no authentication and must not contain real student information. Server-enforced tutor/staff access, audit history, roster administration, and requirements confirmed with staff would be production priorities. AI assisted implementation, debugging, tests, and documentation; I am responsible for understanding and explaining the decisions and core workflow.
+I kept the roster fixed so I could focus on the core tutor-to-staff workflow. Research on LVAEP informed the ESOL and Basic Literacy examples, tutoring locations, and the 16-hour monthly progress display. Student Progress combines attendance history with achievements from the supplied form, and the demo includes a stopped learner whose previous records remain visible.
+
+For production use, the first additions would be real authenticated accounts, server-side tutor/staff permissions, database-backed roster management, and an audit trail for edits. The public demo uses fictional data only.
+
+AI assisted with implementation, debugging, testing, and documentation. I made the product decisions, researched the workflow, tested the final behavior, and reviewed the implementation so I could explain the core design and tradeoffs.
