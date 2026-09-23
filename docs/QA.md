@@ -37,10 +37,10 @@ These are observed totals at test time, not promises about shared public data. A
 
 ## Explicit limits
 
-- **Mobile-width rendering was not verified.** Responsive CSS is implemented (stacked profile/form, two-column navigation and horizontally scrollable tables), but the supported cloud-browser controls did not offer viewport resizing. No physical-phone test was run. Check the live app on a phone before submission.
+- **Mobile layouts were manually inspected on iPhone Safari after the final responsive pass.** Session History, Student Progress, and Monthly Report were reviewed at phone width. Automated mobile-device interaction testing was not performed.
 - An early click immediately after reload happened before hydration and did not switch tabs; waiting for the loaded form then clicking worked. Avoid rapid clicking during the brief initial load.
 - No simulated storage outage or multi-browser concurrent-edit test. Last-write-wins and permanent deletion remain documented limitations.
 - Public CRUD is now browser-verified. The earlier terminal hosting-edge 403 is not treated as a production browser failure.
-- Direct GitHub publication was unavailable; the clean source package requires manual upload. No public GitHub URL has been created or verified by this session.
+- Source is published in the public GitHub repository `kuljot-singh/tutor-ledger-lvaep`. Repository visibility and root project contents were verified after upload.
 
 ![Public Student Progress](student-journey.jpg)
