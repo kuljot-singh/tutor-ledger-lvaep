@@ -104,7 +104,7 @@ Run the commands above. Domain tests cover validation, CSV safety, monthly progr
 
 Before real use: authenticated tutor/staff accounts with server-enforced authorization, audit/edit history, database-backed student/tutor/assignment management, and requirements confirmed with staff. A calendar view may also help if users prefer it. Concurrent edits remain last-write-wins; deletion is permanent after confirmation. Refresh manually to see other visitors' edits. Loading all records suits the small demo; larger programs need server-side filtering/pagination. No extra framework or state-management library was added.
 
-See [interview guide](docs/INTERVIEW_GUIDE.md), [submission answer](docs/SUBMISSION.md), and [GitHub upload instructions](docs/GITHUB_UPLOAD.md).
+See [interview guide](docs/INTERVIEW_GUIDE.md) and [submission answer](docs/SUBMISSION.md).
 
 ## AI assistance
 
