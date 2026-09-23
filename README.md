@@ -1,82 +1,86 @@
 # Tutor Ledger
 
-A Columbia Software Solutions take-home for **Literacy Volunteers of America, Essex & Passaic Counties (LVAEP)**. This is an unofficial prototype using fictional people only.
+Tutor Ledger is a prototype built for the Columbia Software Solutions take-home project for **Literacy Volunteers of America, Essex & Passaic Counties (LVAEP)**. It replaces a paper-based monthly attendance and achievement workflow with a simple web app for tutors and staff.
 
-## Problem
-
-Tutors record attendance; staff need reliable monthly reports. The supplied Student Monthly Attendance & Achievement Form also records learner outcomes. A replacement should make both hours and achievements visible without requiring staff to reconcile another spreadsheet.
-
-## Product
-
-Log attendance, correct history, review monthly totals, and export CSV. **Student Progress** brings a learner's sessions and reported achievements together, with program, site, stopped status, and progress toward the published monthly tutoring expectation. The original hosted persistence and validation remain in place.
-
-## Try the live demo
+## Live demo
 
 **https://tutor-ledger-kuljot.ks4573119468.chatgpt.site**
 
-1. Choose the **Tutor** or **Staff** demo role and enter the disclosed demo password, `password`. This changes the visible prototype workspace; it is not authentication.
-2. Select **Load fictional examples**, or use **Reset fictional demo** to restore the known shared example state.
-3. Open **Student Progress** for Jamie Rivera in September 2026. See ESOL, the assigned library, monthly tutoring hours, and a family achievement. Compare Sam Chen's Basic Literacy profile and Jordan Ellis's stopped example.
-4. As Tutor, log, edit, or delete a fictional record; refresh to confirm database persistence. As Staff, review the monthly report, export CSV, or use the browser print dialog to save a PDF.
+The demo uses fictional data and a shared database.
 
-All visitors share these records. Example totals may change after public edits. Loading samples is additive; Reset restores the full fictional dataset. No real student data should be entered; the demo role and disclosed password do not authenticate anyone.
+- Choose **Tutor** or **Staff** on the demo access screen.
+- Demo password: `password`
+- **Tutor** can log sessions, review history, and view student progress.
+- **Staff** can review history, view student progress, and generate monthly reports.
+- **Reset fictional demo** restores the sample dataset if previous visitors have changed it.
 
-## Designing for LVAEP
+The demo role screen is only for showing the intended workflow; it is not real authentication.
 
-Research checked September 20, 2026. LVAEP is the client; Bloomfield Public Library is a relevant location, not the client identity.
+## What it does
 
-| Source | Observation | Product decision |
+- Log attended sessions, tutor absences, student absences, and holidays
+- Edit or delete previous records
+- Track learner achievements from the supplied LVAEP form
+- Show monthly tutoring progress for each student
+- Generate monthly summaries by tutor and student
+- Export reports as CSV
+- Print or save monthly reports as PDF through the browser
+- Persist records in a hosted SQLite database
+- Prevent duplicate daily records for the same tutor/student assignment
+
+## Design decisions
+
+I started with the supplied **Student Monthly Attendance & Achievement Form** and then researched LVAEP's programs and tutoring model so the prototype would reflect the organization rather than a generic tutoring app.
+
+| Source | What I found | How it shaped the app |
 | --- | --- | --- |
-| Supplied FY 2026–2027 form | July–June grid, one cell per day | Same reporting year; one record per assignment/day is our interpretation |
-| Supplied form | Tutor absence, student absence, holiday | Explicit zero-hour records, distinct from no record |
-| Supplied form | Economic, Educational, Family, Societal/Community, Other achievements | Optional structured achievement; actual checklist labels in `lib/sessions.ts` |
-| Supplied form | STOPPED and reason | Fixed stopped learner example retains history |
-| [LVAEP services](https://www.lvaep.org/our-services.html) | Adult literacy, ESOL and Basic Literacy | Program metadata and adult-facing presentation |
-| [LVAEP services](https://www.lvaep.org/our-services.html), [contact](https://www.lvaep.org/contact-us.html) | Multi-site operation; Bloomfield and Passaic library locations | Fictional assignments use those locations; Online is a demo choice |
-| [LVAEP services](https://www.lvaep.org/our-services.html) | Minimum 16 tutoring hours monthly, with homework stated separately | Neutral attended-time progress out of 16; no homework credit |
-| Product interpretation of attendance plus outcomes | Staff benefit from seeing a learner's history together | Student Progress, not a new case-management system |
+| Supplied FY 2026–2027 form | Attendance is recorded by day across a July–June reporting year | Records are organized by date and use the same reporting year |
+| Supplied form | Tutor absence, student absence, and holiday are separate statuses | These are saved as explicit zero-hour records |
+| Supplied form | Achievements are grouped into Economic, Educational, Family, Societal/Community, and Other | The session form includes the same achievement categories |
+| Supplied form | A learner can be marked as stopped with a reason | The demo includes a stopped learner while preserving past history |
+| [LVAEP services](https://www.lvaep.org/our-services.html) | LVAEP offers ESOL and Basic Literacy programs | Student profiles include program information |
+| [LVAEP services](https://www.lvaep.org/our-services.html) and [contact](https://www.lvaep.org/contact-us.html) | LVAEP works across multiple tutoring locations | Demo assignments include Bloomfield Public Library, Passaic Public Library, and an online example |
+| [LVAEP services](https://www.lvaep.org/our-services.html) | LVAEP publishes a 16-hour monthly tutoring expectation | Student Progress shows recorded attended hours toward 16 |
 
-The PDF was supplied for this exercise and inspected; it is not redistributed here. The muted green is a visual interpretation, not an official brand specification. The fictional assignments are not claims about actual LVAEP participants.
+## Assumptions
 
-## Assumptions and scope
+For the take-home scope, I made a few explicit product assumptions:
 
-- Fixed fictional roster: two tutors, three learners, one assignment each. Program/site/status are illustrative constants; no roster administration.
-- One daily record per assignment; combine same-day meetings. “Sessions held” means attended daily records, not individual meeting times.
-- **0.25–8 hours in quarter-hour increments** is our assumption, not a published LVAEP rule. Store whole minutes. Real dates, within FY 2026–2027, no later than today in Eastern time.
-- One optional achievement per attendance record. The record date is the **report date**, not necessarily attainment date. Other requires an explanation in notes. An achievement may be reported with a zero-hour record without adding tutoring time.
-- The same 16-hour reference is displayed across the fictional tutoring roster; applicability across programs, partial months and stopped periods needs staff confirmation. Stopped profiles explicitly mark it as historical context.
-- Cumulative hours and last attendance describe **records in this demo**, not a verified lifetime history. Timeline includes all recorded months; only the progress card changes with the month filter.
-- A roster site is an assigned location; a session's optional site can differ. No historic assignment versioning.
-- No homework credit, recurring schedule, office notification, approval/locking or follow-up scoring. These need requirements, not guesses.
+- One attendance record per tutor/student assignment per day. If there are multiple meetings in one day, their hours are combined.
+- Session length is entered in 15-minute increments from 0.25 to 8 hours.
+- The demo roster is fixed rather than building a full student/tutor administration system.
+- One achievement can be reported with a session record, with notes for additional context.
+- Only attended tutoring time counts toward the 16-hour monthly progress display.
+- The reporting year is July 1, 2026 through June 30, 2027.
+
+These are straightforward choices for the prototype and would be confirmed with LVAEP before production use.
 
 ## Architecture
 
-**React form → HTTP API → Cloudflare D1 (SQLite)**
+**React → HTTP API → Cloudflare D1 (SQLite)**
 
-React stores the current form, selected view, and a fetched copy of the records. The database is the source of truth. Refresh reloads it; the app never treats browser storage as the permanent record. The site uses the supplied Vinext hosting starter, TypeScript, plain CSS, and direct SQL queries. No extra application framework or state-management library was added.
+The browser handles the form, filters, navigation, and report views. API routes validate requests and read or write session records. D1 is the source of truth for persistence.
 
 | File | Responsibility |
 | --- | --- |
-| `app/page.tsx` | Session form, history, report, and user feedback |
-| `app/student-journey.tsx` | Learner profile, monthly progress, all-month timeline |
-| `app/globals.css` | Layout, typography, and responsive styles |
-| `lib/sessions.ts` | Fixed assignments, date/hour validation, totals, CSV formatting |
-| `app/api/sessions/route.ts` | GET, POST, PUT, and DELETE requests |
-| `app/api/sample/route.ts` | Explicitly load fictional examples without overwriting existing records |
-| `app/api/sample/reset/route.ts` | Restore the shared public demo to its fixed fictional example state |
-| `db/schema.ts` | Sessions table and database constraints |
-| `db/index.ts` | Access the database binding |
-| `drizzle/` | Versioned SQL migration generated from the schema |
-| `tests/` | Validation, reporting, CSV, and schema tests |
-| `docs/INTERVIEW_GUIDE.md` | Explanation, walkthrough, tradeoffs, and questions |
+| `app/page.tsx` | Main application, session form, history, and monthly report |
+| `app/student-journey.tsx` | Student Progress view |
+| `app/globals.css` | Layout and responsive styles |
+| `lib/sessions.ts` | Demo assignments, validation, achievements, summaries, and CSV formatting |
+| `app/api/sessions/route.ts` | Session CRUD API |
+| `app/api/sample/route.ts` | Load fictional sample records |
+| `app/api/sample/reset/route.ts` | Reset the fictional demo dataset |
+| `db/schema.ts` | Database schema and constraints |
+| `drizzle/` | SQL migrations |
+| `tests/` | Domain and database tests |
 
-Each row has `id`, `assignment_id`, `date`, `minutes`, `status`, `site`, `notes`, and `achievement_id`. A unique index on `(assignment_id, date)` rejects duplicate daily records, including simultaneous inserts. Database checks also enforce attendance/minute consistency. Hours are stored as whole minutes; reports divide by 60.
+Session duration is stored as integer minutes. A unique database index on `(assignment_id, date)` prevents duplicate daily records. Monthly totals are calculated from the underlying records rather than stored separately, so edits and deletions are reflected automatically.
 
-Validation runs in both the UI and API. SQL uses bound parameters. Failed requests preserve form values. Reports are calculated from filtered records, rather than storing totals that could become stale. This modest, one-year demo loads all records; a larger deployment should filter and aggregate on the server.
+Validation runs in both the browser and API, and SQL queries use bound parameters.
 
-## Development in a cloud terminal
+## Running locally
 
-The live app needs only a browser. The source can also run in a Node 22.13+ cloud environment; no Docker or desktop app is required. The project uses its existing pnpm lockfile.
+Requires Node 22.13+ and pnpm.
 
 ```sh
 corepack pnpm install --frozen-lockfile
@@ -86,7 +90,7 @@ python3 tests/schema_test.py
 pnpm run build
 ```
 
-For a fresh local development database, apply the included migration **once** after building:
+For a fresh local database, apply the included migrations before starting the app:
 
 ```sh
 node --import ./scripts/sites-env.mjs ./node_modules/wrangler/bin/wrangler.js d1 execute DB --local --config dist/server/wrangler.json --persist-to .wrangler/state --file drizzle/0000_amazing_the_captain.sql
@@ -94,18 +98,35 @@ node --import ./scripts/sites-env.mjs ./node_modules/wrangler/bin/wrangler.js d1
 pnpm run dev
 ```
 
-In this managed build environment, Sites supervises preview and publishes the Worker plus the D1 migration. The logical `DB` binding is declared in `.openai/hosting.json`; no database secret belongs in client code. Deploying elsewhere requires configuring that host's equivalent database binding.
-
 ## Testing
 
-Run the commands above. Domain tests cover validation, CSV safety, monthly progress isolation, absence/holiday exclusion, achievements, and totals above 16. SQLite tests execute both actual migrations, check legacy-row preservation, constraints, achievement persistence, edits/deletion, and non-overwriting conflict behavior. See [QA evidence](docs/QA.md) for production browser checks and limitations; a terminal POST is not used as browser evidence.
+The project includes automated checks for:
 
-## Tradeoffs and next steps
+- date and duration validation
+- attendance and absence rules
+- duplicate records
+- learner achievements
+- monthly progress and report totals
+- CSV escaping
+- database migrations, updates, and deletion
 
-Before real use: authenticated tutor/staff accounts with server-enforced authorization, audit/edit history, database-backed student/tutor/assignment management, and requirements confirmed with staff. A calendar view may also help if users prefer it. Concurrent edits remain last-write-wins; deletion is permanent after confirmation. Refresh manually to see other visitors' edits. Loading all records suits the small demo; larger programs need server-side filtering/pagination. No extra framework or state-management library was added.
+I also tested the deployed app for session creation, editing, deletion, refresh persistence, duplicate handling, report filters, CSV export, Student Progress, demo reset, and mobile layouts.
 
-See [interview guide](docs/INTERVIEW_GUIDE.md) and [submission answer](docs/SUBMISSION.md).
+See [QA notes](docs/QA.md) for a concise verification summary.
+
+## Limitations and next steps
+
+This is a take-home prototype, not a production student-record system. The main next steps would be:
+
+- real authenticated tutor and staff accounts
+- server-side role permissions
+- database-backed student, tutor, and assignment management
+- edit/audit history and stale-edit protection
+- server-side filtering and pagination for larger datasets
+- a month-end submission or approval workflow if LVAEP needs one
 
 ## AI assistance
 
-AI assisted implementation, debugging, testing, and documentation. Product decisions, requirements interpretation, client research, scope, verification, and understanding the core workflow are the applicant's responsibility. This is not a claim that the applicant manually wrote every line. The guide supports learning and honest explanation; statements about personal verification should only be made after performing it.
+AI was used to help with implementation, debugging, testing, and documentation. I made the product and scope decisions, researched the client workflow, tested the final behavior, and reviewed the implementation so I could explain the core data flow and tradeoffs.
+
+See [submission assumptions](docs/SUBMISSION.md).
