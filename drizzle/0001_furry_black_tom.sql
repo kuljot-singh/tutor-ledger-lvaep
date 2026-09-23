@@ -1,0 +1,1 @@
+ALTER TABLE `sessions` ADD `achievement_id` text DEFAULT '' NOT NULL;
